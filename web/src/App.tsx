@@ -1,5 +1,13 @@
 import './styles/global.css';
+import { BrowserRouter } from 'react-router-dom';
+import { Router } from './routes/routes';
 
 export const App = () => {
-  return <h1 className="font-brand text-btn-primary-base">Hello World!</h1>;
+  return (
+    <BrowserRouter>
+      <Router />
+    </BrowserRouter>
+
+
+  );
 };
