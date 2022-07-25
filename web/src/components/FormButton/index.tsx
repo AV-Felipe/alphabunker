@@ -16,7 +16,7 @@ export default function FormInput({
     <button
       onClick={handleClick}
       className={
-        'p-2 border-0 rounded-md bg-btn-primary-base flex justify-center'
+        'p-2 w-4/5 border-0 rounded-md bg-btn-primary-base flex justify-center'
       }
     >
       {children}

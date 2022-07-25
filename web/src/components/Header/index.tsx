@@ -12,7 +12,7 @@ export default function Header ({
   return (
     <div
       className={
-        'w-screen flex flex-col bg-[#337782] items-center'
+        'w-screen flex flex-col bg-[#337782] items-center rounded-b-3xl'
       }
     >
       {children}

@@ -24,7 +24,7 @@ export default function FormInput({
       value={value || ''}
       onChange={handleChange}
       className={
-        'p-2 border-2 rounded-md border-input-border bg-input-base'
+        'p-2 w-4/5 border-2 rounded-md border-input-border bg-input-base'
       }
     />
 

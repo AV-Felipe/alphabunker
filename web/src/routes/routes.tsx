@@ -5,7 +5,7 @@ import LoginPage from '../pages/LoginPage';
 
 export const Router = () => (
   <>
-    <HeaderPage />
+
     <Routes>
       <Route path="/" element={<Navigate to="/login" />} />
 
@@ -14,7 +14,10 @@ export const Router = () => (
       }
       />
 
-      <Route path="/home" element={<div></div>} />
+      <Route path="/home/*" element={
+        <HeaderPage />
+      }
+      />
 
       <Route path="*" element={<h1>Error 404</h1>} />
     </Routes>

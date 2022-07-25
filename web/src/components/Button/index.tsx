@@ -4,17 +4,17 @@ import { Link } from 'react-router-dom';
 
 interface PropTypes {
   children: string;
-  source: string;
+  imgSource: string;
+  name: string;
   onClick?: MouseEventHandler<HTMLButtonElement>;
-  link: string;
   type: 'submit' | 'button' | 'reset' | undefined;
 }
 
 export default function Button ({
   onClick,
   children,
-  source,
-  link,
+  imgSource,
+  name,
   type
 }: PropTypes) {
   return (
@@ -23,27 +23,28 @@ export default function Button ({
         'w-15 flex flex-col items-center'
       }
     >
-      <Link to={link}>
-        <button
-          onClick={onClick}
-          type={type}
-          className={
-            'w-14 h-11 bg-btn-primary-base rounded-md border-0 flex justify-center'
-          }
-        >
-          <img src={source}/>
-        </button>
-      </Link>
 
-      <Link to={link}>
-        <p
-          className={
-            'text-center'
-          }
-        >
-          {children}
-        </p>
-      </Link>
+      <button
+        onClick={onClick}
+        type={type}
+        className={
+          'w-14 h-11 bg-btn-primary-base rounded-md border-0 flex justify-center'
+        }
+        name={name}
+      >
+        <img src={imgSource} alt={name}/>
+      </button>
+
+
+
+      <p
+        className={
+          'text-center text-xs'
+        }
+      >
+        {children}
+      </p>
+
     </div>
   );
 }
