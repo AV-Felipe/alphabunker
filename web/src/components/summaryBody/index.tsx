@@ -1,21 +1,22 @@
 /* eslint-disable react/react-in-jsx-scope */
-import React, { MouseEventHandler } from 'react';
 
 
 interface PropTypes {
   children: React.ReactNode;
 }
 
-export default function Header ({
+export default function SummaryBody ({
   children
 }: PropTypes) {
   return (
     <div
       className={
-        'w-screen flex flex-col bg-[#337782] items-center rounded-b-3xl mb-7'
+        'w-11/12 h-auto p-px flex flex-col bg-body-light-100 items-center justify-center rounded-lg'
       }
     >
+
       {children}
+
     </div>
   );
 }

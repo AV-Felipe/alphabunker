@@ -1,6 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 import { Route, Routes, Navigate } from 'react-router-dom';
-import HeaderPage from '../pages/HeaderPage';
+import MainPage from '../pages/MainPage';
 import LoginPage from '../pages/LoginPage';
 
 export const Router = () => (
@@ -15,7 +15,7 @@ export const Router = () => (
       />
 
       <Route path="/home/*" element={
-        <HeaderPage />
+        <MainPage />
       }
       />
 

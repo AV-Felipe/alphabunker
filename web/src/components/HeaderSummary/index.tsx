@@ -33,7 +33,7 @@ export default function HeaderSummary ({
           'text-header-dark'
         }
       >
-        <img src={showIcon} className={'inline'} /> <span className={'text-2xl'}>{balance}</span> <span className={'text-sm'}>R$</span>
+        <img src={showIcon} className={'inline align-baseline'} /> <span className={'text-2xl text-brand-base'}>{balance}</span> <span className={'text-sm text-brand-hover'}>R$</span>
       </p>
 
     </div>

@@ -31,8 +31,9 @@ export default function Button ({
           'w-14 h-11 bg-btn-primary-base rounded-md border-0 flex justify-center'
         }
         name={name}
+        desiredPage={name}
       >
-        <img src={imgSource} alt={name}/>
+        <img src={imgSource} alt={name} desiredPage={name}/>
       </button>
 
 
@@ -41,6 +42,7 @@ export default function Button ({
         className={
           'text-center text-xs'
         }
+        desiredPage={name}
       >
         {children}
       </p>
