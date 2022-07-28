@@ -1,13 +1,14 @@
 import './styles/global.css';
 import { BrowserRouter } from 'react-router-dom';
 import { Router } from './routes/routes';
+import { UserProvider } from './providers/userProvider';
 
 export const App = () => {
   return (
-    <BrowserRouter>
-      <Router />
-    </BrowserRouter>
-
-
+    <UserProvider>
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
+    </UserProvider>
   );
 };

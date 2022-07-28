@@ -3,9 +3,10 @@ import { Route, Routes } from 'react-router-dom';
 import SummaryPage from './SummaryPage';
 import HeaderPage from './HeaderPage';
 import PageBody from '../components/PageBody';
-
+import { useUser } from '../providers/userProvider';
 
 export default function MainPage () {
+  const {user} = useUser();
 
   return (
     <PageBody>
@@ -17,7 +18,11 @@ export default function MainPage () {
         <Route path='deposit' element={<p>página de depósito</p>} />
         <Route path='withdraw' element={<p>página de saque</p>} />
       </Routes>
-
+      <p>
+        {
+          JSON.stringify(user?.extract)
+        }
+      </p>
     </PageBody>
   );
 }

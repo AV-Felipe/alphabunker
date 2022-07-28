@@ -7,7 +7,7 @@ import logoIcon from '../assets/vectors/logo.svg';
 import { useUser } from '../providers/userProvider';
 import { Link } from 'react-router-dom';
 
-export default function HeaderPage () {
+export default function RegisterPage () {
   const { user } = useUser();
   const [values, setValues] = useState({});
 
@@ -16,19 +16,16 @@ export default function HeaderPage () {
   function handleChange (event) {
     const name = event.target.name;
     const value = event.target.value;
-    user.account[name] = value
-    if(name === 'name') user.name = value
+    user[name] = value
     setValues(values => ({...values, [name]: value}));
-
   }
 
   function handleClick (event) {
 
-    const requestBody = {
-      account: user.account
-    }
+    const requestBody = user
 
-    fetch('http://localhost:8000/extract', {
+
+    fetch('http://localhost:8000/accounts', {
       method: 'POST',
       body: JSON.stringify(requestBody),
       headers: new Headers({
@@ -39,24 +36,22 @@ export default function HeaderPage () {
       .then(res => {
         console.log(res);
         if(res.message != 'Success') return
-        user.extract = res.data
-        navigate('/home')
-      })
+        navigate('/home');
+      })//TODO Check if backend response have Data or Message, treat behavior and use data
       .catch(err => console.log(err));
   }
 
   return (
     <div className='py-4 w-screen h-screen bg-[#F5F5F5] flex flex-col items-center gap-2'>
       <img src={logoIcon} className={'w-32'} />
-      <p>Login</p>
+      <p>Cadastre-se</p>
       <FormInput name='name' placeHolder='Nome' value={values.name} handleChange={handleChange} />
-      <FormInput name='agency_number' placeHolder='Número da agência' value={values.agency_number} handleChange={handleChange} />
-      <FormInput name='agency_verification_code' placeHolder='Código de verificação da agência' value={values.agency_verification_code} handleChange={handleChange} />
-      <FormInput name='account_number' placeHolder='Número da conta' value={values.account_number} handleChange={handleChange} />
-      <FormInput name='account_verification_code' placeHolder='Código de verificação da conta' value={values.account_verification_code} handleChange={handleChange} />
+      <FormInput name='email' placeHolder='Email' value={values.email} handleChange={handleChange} />
+      <FormInput name='cpf' placeHolder='Cpf' value={values.cpf} handleChange={handleChange} />
+      <FormInput name='birthdate' placeHolder='Data de nascimento' value={values.birthdate} handleChange={handleChange} />
       <FormInput name='password' placeHolder='Senha' value={values.password} handleChange={handleChange} />
-      <FormButton handleClick={handleClick}>Entrar</FormButton>
-      <Link to={'/register'}>Crie sua conta</Link>
-  </div>
+      <FormButton handleClick={handleClick}>entrar</FormButton>
+      <Link to={'/login'}>Login</Link>
+    </div>
   );
 }

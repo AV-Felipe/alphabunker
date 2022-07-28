@@ -10,9 +10,10 @@ import transferIcon from '../assets/vectors/icon-transfer.svg';
 import depositIcon from '../assets/vectors/icon-deposit.svg';
 import withdrawIcon from '../assets/vectors/icon-withdraw.svg';
 import userIcon from '../assets/vectors/icon-user.svg';
+import { useUser } from '../providers/userProvider';
 
 export default function HeaderPage () {
-
+  const {user} = useUser()
   const navigate = useNavigate();
 
   function handleClick (event) {
@@ -29,7 +30,7 @@ export default function HeaderPage () {
     <>
       <Header>
 
-        <HeaderWelcome userName='Felipe' />
+        <HeaderWelcome userName={user.name} />
 
         <HeaderRow>
 
