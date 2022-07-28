@@ -55,7 +55,7 @@ export default function HeaderPage () {
 
       <img src={logoIcon} className={'w-32'} />
 
-      <p>Acesse sua cotna</p>
+      <p>Acesse sua conta</p>
 
       <FormInput name='name' placeHolder='digite seu nome' value={values.name} handleChange={handleChange} />
       <FormInput name='agency' placeHolder='digite sua agência' value={values.agency} handleChange={handleChange} />
