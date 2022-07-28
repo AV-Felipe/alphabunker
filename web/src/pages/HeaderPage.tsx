@@ -16,8 +16,8 @@ export default function HeaderPage () {
   const navigate = useNavigate();
 
   function handleClick (event) {
-    console.log(event.target.alt);
-    const page = event.target.alt;
+    console.log(event.target.getAttribute('desiredPage'));
+    const page = event.target.getAttribute('desiredPage');
     // localStorage.setItem('userdata', JSON.stringify(values));
     const data = localStorage.getItem('userdata') !== null ? localStorage.getItem('userdata') : '{"error": "no userData on local storage"}';
     const userData = JSON.parse(data);

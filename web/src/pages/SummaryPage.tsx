@@ -2,6 +2,8 @@
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import MainContainer from '../components/MainContainer';
 import MainTitle from '../components/MainTitle';
+import SummaryBody from '../components/summaryBody';
+import SummaryRow from '../components/SummaryRow';
 import Button from '../components/Button';
 import Header from '../components/Header';
 import HeaderRow from '../components/HeaderRow';
@@ -31,7 +33,11 @@ export default function SummaryPage () {
     <>
       <MainContainer>
         <MainTitle title='Extrato de transações' iconSrc={summaryIcon} bell={true} />
-        <p>nova linha teste</p>
+        <SummaryBody>
+          <SummaryRow date='08/06/1985' transferSend='100' withdraw='50' fee='6' deposit='200' transferReceived='1000'/>
+          <SummaryRow date='09/06/1985' transferSend='10' withdraw='5' fee='0,6' deposit='250' transferReceived='1500'/>
+        </SummaryBody>
+
       </MainContainer>
 
     </>
