@@ -1,0 +1,5 @@
+FROM node:alpine
+WORKDIR /usr/bank
+COPY package.json .
+RUN npm install && npm install typescript -g
+COPY . .
