@@ -29,6 +29,7 @@ interface UserTypes {
   email: string;
   cpf: string;
   birthDate: string;
+  password: string;
   account: Partial<AccountTypes>
   extract: Partial<ExtractTypes>
 }

@@ -1,14 +1,16 @@
 /* eslint-disable react/react-in-jsx-scope */
 import React, { MouseEventHandler } from 'react';
-
+import ArrowLoading from '../../assets/vectors/arrow_loading.svg';
 interface PropTypes {
   handleClick?: MouseEventHandler<HTMLButtonElement>;
+  loading: boolean;
   children: string;
 }
 
 export default function FormInput({
   handleClick,
-  children
+  children,
+  loading
 }:PropTypes) {
 
   return (
@@ -16,10 +18,14 @@ export default function FormInput({
     <button
       onClick={handleClick}
       className={
-        'p-2 w-4/5 border-0 rounded-md bg-btn-primary-base flex justify-center'
+        'text-btn-text p-2 h-[40px] w-[250px] border-0 rounded-md bg-btn-primary-base flex justify-center'
       }
     >
-      {children}
+      {!loading ? children :
+        (<div className="animate-spin inline-block">
+          <img className=' h-[25px]' src={ArrowLoading} alt="a" />
+        </div>)
+      }
     </button>
 
   );

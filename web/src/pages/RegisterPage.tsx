@@ -6,24 +6,32 @@ import FormButton from '../components/FormButton';
 import logoIcon from '../assets/vectors/logo.svg';
 import { useUser } from '../providers/userProvider';
 import { Link } from 'react-router-dom';
+import ValidateRegister from '../validator/ValidateRegister';
+import {RegisterValues} from '../utils/types'
+import {parseDate} from '../utils/date'
 
 export default function RegisterPage () {
   const { user } = useUser();
-  const [values, setValues] = useState({});
-
+  const [values, setValues] = useState({} as RegisterValues);
+  const [loading, setLoading] = useState(false);
+  const [formErrors, setFormErrors] = useState({} as RegisterValues);
   const navigate = useNavigate();
 
   function handleChange (event) {
     const name = event.target.name;
     const value = event.target.value;
-    user[name] = value
+    user[name] = value;
+    if(name == 'birthdate') user[name] = parseDate(value);
     setValues(values => ({...values, [name]: value}));
   }
 
   function handleClick (event) {
+    const errors = ValidateRegister(values);
+    setFormErrors(errors);
+    if(Object.keys(errors).length !== 0) return;
+    setLoading(true);
 
     const requestBody = user
-
 
     fetch('http://localhost:8000/accounts', {
       method: 'POST',
@@ -35,23 +43,25 @@ export default function RegisterPage () {
       .then(res => res.json())
       .then(res => {
         console.log(res);
-        if(res.message != 'Success') return
+        setLoading(false);
+        if(res.message != 'Success') return;
         navigate('/home');
-      })//TODO Check if backend response have Data or Message, treat behavior and use data
+      })
       .catch(err => console.log(err));
   }
 
   return (
-    <div className='py-4 w-screen h-screen bg-[#F5F5F5] flex flex-col items-center gap-2'>
-      <img src={logoIcon} className={'w-32'} />
-      <p>Cadastre-se</p>
-      <FormInput name='name' placeHolder='Nome' value={values.name} handleChange={handleChange} />
-      <FormInput name='email' placeHolder='Email' value={values.email} handleChange={handleChange} />
-      <FormInput name='cpf' placeHolder='Cpf' value={values.cpf} handleChange={handleChange} />
-      <FormInput name='birthdate' placeHolder='Data de nascimento' value={values.birthdate} handleChange={handleChange} />
-      <FormInput name='password' placeHolder='Senha' value={values.password} handleChange={handleChange} />
-      <FormButton handleClick={handleClick}>entrar</FormButton>
-      <Link to={'/login'}>Login</Link>
+    <div className='py-4 pt-10 w-screen bg-body-light-200 dark:bg-body-dark flex flex-col items-center gap-2'>
+      <img src={logoIcon} className={'w-28'} />
+      <p className='text-paragraph-dark dark:text-paragraph-light-100 text-xl font-medium mb-6'>Crie sua conta</p>
+      <FormInput type='text' error={formErrors?.name} name='name' placeHolder='Nome' value={values.name} handleChange={handleChange} />
+      <FormInput type='text' error={formErrors?.email} name='email' placeHolder='Email' value={values.email} handleChange={handleChange} />
+      <FormInput type='text' error={formErrors?.cpf} name='cpf' placeHolder='Cpf' value={values.cpf} handleChange={handleChange} />
+      <FormInput type='date' error={formErrors?.birthdate} name='birthdate' placeHolder='Data de nascimento' value={values.birthdate} handleChange={handleChange} />
+      <FormInput type='password' error={formErrors?.password} name='password' placeHolder='Senha' value={values.password} handleChange={handleChange} />
+      <FormInput type='password' error={formErrors?.confirm_password} name='confirm_password' placeHolder='Confirme sua senha' value={values.confirm_password} handleChange={handleChange} />
+      <FormButton loading={loading} handleClick={handleClick}>Cadastrar</FormButton>
+      <Link className='text-sm dark:text-paragraph-light-100' to={'/login'}>Entrar</Link>
     </div>
   );
 }

@@ -8,6 +8,7 @@
 
 html {
   @apply w-screen h-screen leading-none;
+  @apply font-['Inter'];
 }
 
 body {
@@ -25,4 +26,9 @@ ul {
 input,
 select {
   @apply p-0 leading-none m-0 focus:outline-none;
+  @apply bg-input-base border-[1px];
+}
+
+button {
+  @apply hover:bg-btn-primary-hover;
 }
