@@ -18,7 +18,7 @@ function Row({children}){
 function Container({children}){
   return (
     <div className={
-      'w-[90%] mb-3 h-full flex flex-col bg-body-light-100 items-center justify-center'
+      'w-[90%] mb-3 h-full flex flex-col bg-body-light-100 dark:bg-body-dark items-center justify-center'
     }>
       {children}
     </div>
