@@ -35,7 +35,7 @@ export default function SummaryPage () {
         <MainTitle title='Extrato de transações' iconSrc={summaryIcon} bell={true} />
         <SummaryBody>
           <SummaryRow date='08/06/1985' transferSend='100' withdraw='50' fee='6' deposit='200' transferReceived='1000'/>
-          <SummaryRow date='09/06/1985' transferSend='10' withdraw='5' fee='0,6' deposit='250' transferReceived='1500'/>
+          <SummaryRow date='09/06/1985' transferSend='10' deposit='250' transferReceived='1500'/>
         </SummaryBody>
 
       </MainContainer>

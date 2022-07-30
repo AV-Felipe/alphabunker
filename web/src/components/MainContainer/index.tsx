@@ -16,7 +16,7 @@ export default function MainContainer ({
     >
       <main
         className={
-          'w-5/6 flex flex-col bg-body-light-100 items-center justify-center rounded-lg'
+          'w-5/6 flex flex-col bg-body-light-100 dark:bg-body-dark dark:border-btn-secondary-base dark:border items-center justify-center rounded-lg'
         }
       >
         {children}

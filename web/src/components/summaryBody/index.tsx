@@ -11,7 +11,7 @@ export default function SummaryBody ({
   return (
     <div
       className={
-        'w-11/12 h-auto p-px flex flex-col bg-body-light-100 items-center justify-center rounded-lg'
+        'w-11/12 h-auto p-px flex flex-col bg-body-light-100 dark:bg-body-dark items-center justify-center rounded-lg'
       }
     >
 
