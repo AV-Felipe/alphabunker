@@ -3,6 +3,7 @@ import { Route, Routes, Navigate } from 'react-router-dom';
 import MainPage from '../pages/MainPage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
+import ProfilePage from '../pages/ProfilePage';
 
 export const Router = () => (
   <>
@@ -19,6 +20,10 @@ export const Router = () => (
       />
       <Route path="/home/*" element={
         <MainPage />
+      }
+      />
+      <Route path="/profile/*" element={
+        <ProfilePage />
       }
       />
 

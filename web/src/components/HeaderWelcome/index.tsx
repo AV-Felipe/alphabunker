@@ -1,6 +1,6 @@
 /* eslint-disable react/react-in-jsx-scope */
 import userIcon from '../../assets/vectors/icon-user.svg';
-
+import {Link} from 'react-router-dom'
 interface PropTypes {
   userName: string;
 }
@@ -23,7 +23,9 @@ export default function HeaderWelcome ({
         Bem-vind@, {userName}
       </p>
 
-      <img src={userIcon} />
+        <Link to={'/profile'}>
+          <img src={userIcon} />
+        </Link>
 
 
 

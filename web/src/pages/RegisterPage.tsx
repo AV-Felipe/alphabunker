@@ -42,9 +42,10 @@ export default function RegisterPage () {
     })
       .then(res => res.json())
       .then(res => {
-        console.log(res);
         setLoading(false);
         if(res.message != 'Success') return;
+        console.log(res)
+        user.account = res.data.account;
         navigate('/home');
       })
       .catch(err => console.log(err));
