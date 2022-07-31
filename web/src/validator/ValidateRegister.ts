@@ -5,40 +5,40 @@ function Validate(register: RegisterValues) {
   const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
   const { name, email, birthdate, cpf, password, confirm_password } = register;
   if (!name) {
-    errors.name = 'Name is required';
+    errors.name = 'Nome é necessário';
   }
   if (!cpf) {
-    errors.cpf = 'Cpf is required';
+    errors.cpf = 'Cpf é necessário';
   }else if(cpf.length != 11){
-    errors.cpf = 'Cpf must contain 11 digits';
+    errors.cpf = 'Cpf deve conter 11 dígitos';
   }
 
   if (!email) {
-    errors.email = 'Email is required';
+    errors.email = 'Email é necessário';
   } else if (!emailRegex.test(email)) {
-    errors.email = 'Invalid Email';
+    errors.email = 'Email é inválido';
   }
   const dateUS = new Date(birthdate);
   const dateNow = new Date();
 
   if (!birthdate) {
-    errors.birthdate = 'Birth Date is required';
+    errors.birthdate = 'Data de nascimento é necessária';
   } else if (dateUS > dateNow) {
-    errors.birthdate = 'Your date of birth is greater than the current date';
+    errors.birthdate = 'Sua data de nascimento é maior que a data atual';
   }
 
   if (!password) {
-    errors.password = 'Password is required';
+    errors.password = 'Senha é necessária';
   } else if (password.length < 4) {
-    errors.password = 'Password is too short';
+    errors.password = 'Senha é muito curta';
   } else if (password.length > 4) {
-    errors.password = 'Password is too long';
+    errors.password = 'Senha é muito longa';
   }
 
   if (!confirm_password) {
-    errors.confirm_password = 'Confirm password is required';
+    errors.confirm_password = 'Confirmação de senha é necessária';
   } else if (password !== confirm_password) {
-    errors.confirm_password = 'Password is different from confirm password';
+    errors.confirm_password = 'Senha é diferente da confirmação de senha';
   }
 
   return errors;

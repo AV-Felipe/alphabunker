@@ -7,14 +7,15 @@ import logoIcon from '../assets/vectors/logo.svg';
 import { useUser } from '../providers/userProvider';
 import { Link } from 'react-router-dom';
 import ValidateRegister from '../validator/ValidateRegister';
-import {RegisterValues} from '../utils/types'
-import {parseDate} from '../utils/date'
+import { RegisterValues } from '../utils/types'
+import { parseDate } from '../utils/date'
 
 export default function RegisterPage () {
   const { user } = useUser();
   const [values, setValues] = useState({} as RegisterValues);
   const [loading, setLoading] = useState(false);
   const [formErrors, setFormErrors] = useState({} as RegisterValues);
+  const [serverError,setServerError] = useState(false);
   const navigate = useNavigate();
 
   function handleChange (event) {
@@ -27,9 +28,10 @@ export default function RegisterPage () {
 
   function handleClick (event) {
     const errors = ValidateRegister(values);
-    setFormErrors(errors);
-    if(Object.keys(errors).length !== 0) return;
     setLoading(true);
+    setFormErrors(errors);
+    setServerError(false)
+    if(Object.keys(errors).length !== 0) return;
 
     const requestBody = user
 
@@ -44,7 +46,7 @@ export default function RegisterPage () {
       .then(res => {
         setLoading(false);
         if(res.message != 'Success'){
-          formErrors.server = res.message
+          setServerError(res.data)
           return
         }
         console.log(res)
@@ -65,7 +67,7 @@ export default function RegisterPage () {
       <FormInput type='password' error={formErrors?.password} name='password' placeHolder='Senha' value={values.password} handleChange={handleChange} />
       <FormInput type='password' error={formErrors?.confirm_password} name='confirm_password' placeHolder='Confirme sua senha' value={values.confirm_password} handleChange={handleChange} />
       <FormButton loading={loading} handleClick={handleClick}>Cadastrar</FormButton>
-      {formErrors?.server && <label className='text-input-error mt-[-20px] w-[250px] ml-[10px] text-[10px]'>{formErrors?.server}</label>}
+      {serverError && <p className='text-input-error w-[250px] ml-[10px] text-[10px]'>{serverError}</p>}
       <Link className='text-sm dark:text-paragraph-light-100' to={'/login'}>Entrar</Link>
     </div>
   );

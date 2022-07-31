@@ -12,16 +12,12 @@ import withdrawIcon from '../assets/vectors/icon-withdraw.svg';
 import { useUser } from '../providers/userProvider';
 
 export default function HeaderPage () {
-  const {user} = useUser()
+  const {user} = useUser();
   const navigate = useNavigate();
 
   function handleClick (event) {
     console.log(event.target.getAttribute('desiredpage'));
     const page = event.target.getAttribute('desiredpage');
-    // localStorage.setItem('userdata', JSON.stringify(values));
-    const data = localStorage.getItem('userdata') !== null ? localStorage.getItem('userdata') : '{"error": "no userData on local storage"}';
-    const userData = JSON.parse(data);
-    console.log(userData);
     navigate(page);
   }
 
@@ -43,7 +39,11 @@ export default function HeaderPage () {
             Sacar
           </Button>
         </HeaderRow>
-        <HeaderSummary agency='123' account='456' balance='1.000,99'/>
+        <HeaderSummary
+          agency={`${user?.account.agency_number}-${user?.account.agency_verification_code}`}
+          account={`${user?.account.account_number}-${user?.account.account_verification_code}`}
+          balance={user?.account?.balance?.toFixed(2).replace('.',',')}
+        />
       </Header>
     </>
   );

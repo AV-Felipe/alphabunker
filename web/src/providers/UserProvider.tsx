@@ -12,6 +12,7 @@ interface AccountTypes{
   agency_verification_code: number,
   account_number: number,
   account_verification_code: number,
+  balance: number
 }
 interface TransactionTypes{
   type: string;

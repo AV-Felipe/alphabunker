@@ -14,4 +14,6 @@ export interface LoginValues{
   account_number: string;
   account_verification_code: string;
   password: string;
+  name: string;
+  server: string
 }
