@@ -4,6 +4,7 @@ import MainPage from '../pages/MainPage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import ProfilePage from '../pages/ProfilePage';
+import ProtectedRoute from './ProtectedRoute';
 
 export const Router = () => (
   <>
@@ -19,11 +20,15 @@ export const Router = () => (
       }
       />
       <Route path="/home/*" element={
-        <MainPage />
+        <ProtectedRoute>
+          <MainPage />
+        </ProtectedRoute>
       }
       />
       <Route path="/profile/*" element={
-        <ProfilePage />
+        <ProtectedRoute>
+          <ProfilePage />
+        </ProtectedRoute>
       }
       />
 
