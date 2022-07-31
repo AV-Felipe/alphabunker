@@ -10,8 +10,11 @@ export default class CreateTransfer {
   private tax = 1;
 
   async execute(params: TransferRequest): Promise<Result<TransferResponse>> {
-    await new ValidateTransfer().execute(params);
-
+    const validate = await new ValidateTransfer().execute(params);
+    if(validate.isFailure){
+      return Result.fail<TransferResponse>(validate.error)
+    }
+    
     const originId: Result<string> = await new AccountTable().find(params.origin_account);
     const destinyId: Result<string> = await new AccountTable().find(params.destiny_account);
     if(originId.isFailure){

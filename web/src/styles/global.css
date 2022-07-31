@@ -7,16 +7,16 @@
 }
 
 html {
-  @apply w-screen h-screen leading-none;
+  @apply w-screen h-full min-h-screen leading-none;
   @apply font-['Inter'];
 }
 
 body {
-  @apply w-screen h-screen flex flex-col text-base overflow-x-hidden;
+  @apply w-screen min-h-screen flex flex-col text-base overflow-x-hidden;
 }
 
 #root {
-  @apply w-screen h-screen flex flex-col justify-start items-center bg-white dark:bg-black;
+  @apply w-screen min-h-screen flex flex-col justify-start items-center bg-white dark:bg-black;
 }
 
 ul {
