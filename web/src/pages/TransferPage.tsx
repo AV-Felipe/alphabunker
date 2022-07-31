@@ -93,13 +93,13 @@ export default function SummaryPage () {
         <div className='mb-3.5'>
           <FormTitle title={'Destino'} />
           <div className='flex'>
-            <FormInput type='text' name='agency' placeHolder={''} readOnly={true} value={destiny_acount.agency_number} handleChange={handleChange} formSection={true} />
+            <FormInput type='text' name='agency' readOnly={true} value={values.agency_number} handleChange={handleChangeDestiny} formSection={true} />
             <div className='w-8'></div>
-            <FormInput type='text' name='account' placeHolder={''} readOnly={true} value={values.account_number} handleChange={handleChange} formSection={true}/>
+            <FormInput type='text' name='account' pl readOnly={true} value={values.account_number} handleChange={handleChangeDestiny} formSection={true}/>
           </div>
         </div>
         <FormLongInput type='text' name='value' placeHolder='Valor' value={values.value} handleChange={handleChangeValue} readOnly={false} />
-        <FormLongInput type='text' name='password' placeHolder='Senha' value={values.password} handleChange={handleChange} readOnly={false} />
+        <FormLongInput type='text' name='password' placeHolder='Senha' value={values.password} handleChange={handleChangeOrigin} readOnly={false} />
         <FormButton>Transferir</FormButton>
       </MainContainer>
     </>

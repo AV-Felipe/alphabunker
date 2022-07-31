@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  bank_api:
+    build: .
+    restart: always
+    environment:
+      -  PORT=8000
+      -  DB_HOST=db_bank
+      -  DB_PORT=5432
+      -  DB_USER=postgres
+      -  DB_PASSWORD=postgres
+      -  DB_NAME=postgres
+    ports:
+      - '8000:8000'
+    depends_on:
+      - db_bank
+    links:
+      - db_bank 
+    command: npm run watch
+    volumes:
+      - type: bind
+        source: ./src  
+        target: /usr/bank/src
+        
+  db_bank:
+    build: ./docker/db/
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - '8002:5432'
+    volumes: 
+      - db:/var/lib/postgresql/data
+volumes:
+  db:
+    driver: local
