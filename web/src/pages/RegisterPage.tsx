@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import logoIcon from '../assets/vectors/logo.svg';
-import { useUser } from '../providers/userProvider';
+import { useUser } from '../providers/UserProvider';
 import { Link } from 'react-router-dom';
 import ValidateRegister from '../validator/ValidateRegister';
-import { RegisterValues } from '../utils/types'
-import { parseDate } from '../utils/date'
+import { RegisterValues } from '../utils/types';
+import { parseDate } from '../utils/date';
 
 export default function RegisterPage () {
   const { user } = useUser();

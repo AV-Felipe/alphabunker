@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import FormInput from '../components/FormInput';
 import FormButton from '../components/FormButton';
 import logoIcon from '../assets/vectors/logo.svg';
-import { useUser } from '../providers/userProvider';
+import { useUser } from '../providers/UserProvider';
 import { Link } from 'react-router-dom';
 import { LoginValues } from '../utils/types';
 import ValidateLogin from '../validator/ValidateLogin';

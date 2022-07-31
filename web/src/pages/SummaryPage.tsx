@@ -6,7 +6,7 @@ import SummaryBody from '../components/summaryBody';
 import SummaryRow from '../components/SummaryRow';
 import summaryIcon from '../assets/vectors/icon-summary-orange.svg';
 import { useEffect, useState } from 'react';
-import { useUser } from '../providers/userProvider';
+import { useUser } from '../providers/UserProvider';
 import { parseDate } from '../utils/date';
 export default function SummaryPage () {
   const { user } = useUser();

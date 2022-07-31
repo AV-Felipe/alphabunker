@@ -3,7 +3,10 @@ import { Route, Routes } from 'react-router-dom';
 import SummaryPage from './SummaryPage';
 import HeaderPage from './HeaderPage';
 import PageBody from '../components/PageBody';
-import { useUser } from '../providers/userProvider';
+import { useUser } from '../providers/UserProvider';
+import TransferPage from '../pages/TransferPage';
+import DepositPage from '../pages/DepositPage';
+import WithdrawPage from '../pages/WithdrawPage';
 
 export default function MainPage () {
   const {user} = useUser();
@@ -14,9 +17,9 @@ export default function MainPage () {
       {/* TODO criar as páginas para cada sub-rota e adicionar aqui */}
       <Routes>
         <Route path='summary' element={<SummaryPage />} />
-        <Route path='transfer' element={<p>página de transferência</p>} />
-        <Route path='deposit' element={<p>página de depósito</p>} />
-        <Route path='withdraw' element={<p>página de saque</p>} />
+        <Route path='transfer' element={<TransferPage />} />
+        <Route path='deposit' element={<DepositPage />} />
+        <Route path='withdraw' element={<WithdrawPage />} />
       </Routes>
     </PageBody>
   );

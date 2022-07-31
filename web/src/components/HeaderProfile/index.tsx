@@ -3,7 +3,7 @@ import Header from '../Header';
 import arrowIcon from '../../assets/vectors/arrow.svg';
 import { Link } from 'react-router-dom';
 import userImage from '../../assets/images/image-user.png';
-import { useUser } from '../../providers/userProvider';
+import { useUser } from '../../providers/UserProvider';
 
 export default function HeaderProfile () {
   const { user } = useUser();

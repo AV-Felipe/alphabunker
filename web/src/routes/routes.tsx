@@ -4,6 +4,7 @@ import MainPage from '../pages/MainPage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import ProfilePage from '../pages/ProfilePage';
+import TransferPage from '../pages/TransferPage';
 
 export const Router = () => (
   <>
@@ -24,6 +25,10 @@ export const Router = () => (
       />
       <Route path="/profile/*" element={
         <ProfilePage />
+      }
+      />
+      <Route path="/transfer/*" element={
+        <TransferPage />
       }
       />
 
