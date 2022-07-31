@@ -14,6 +14,7 @@ class AccountTable extends PostgresDB {
           `;
       const values = [account.id, account.user_id, account.agency_number, account.agency_verification_code, account.account_number, account.account_verification_code, account.password, account.email];
       await client.query(query, values);
+      client.release()
       return true;
     } catch (e) {
       console.log(e);
@@ -34,6 +35,7 @@ class AccountTable extends PostgresDB {
       if(!result.rows[0]){      
         return Result.fail(new BadRequest("Account don't exist"));
       }
+      client.release()
       return Result.ok(result.rows[0]);
     } catch (e) {
       console.log(e);
@@ -51,6 +53,7 @@ class AccountTable extends PostgresDB {
           `;
       const values = [accountId];
       const result = await client.query(query, values);
+      client.release()
       return Result.ok(result.rows);
     } catch (e) {
       console.log(e);
@@ -68,6 +71,7 @@ class AccountTable extends PostgresDB {
           `;
       const values = [accountId];
       const result = await client.query(query, values);
+      client.release()
       if(result.rows.length == 0){
         return null
       }
@@ -89,6 +93,7 @@ class AccountTable extends PostgresDB {
           `;
       const values = [accountId, value];
       const result = await client.query(query, values);
+      client.release()
       return Result.ok(result.rows[0])
     } catch (e) {
       console.log(e);
@@ -107,6 +112,7 @@ class AccountTable extends PostgresDB {
           `;
       const values = [accountId, value];
       const result = await client.query(query, values);
+      client.release()
       return Result.ok(result.rows[0])
     } catch (e) {
       console.log(e);
@@ -124,7 +130,7 @@ class AccountTable extends PostgresDB {
        `;
       const values = [accountId];
       const result = await client.query(query, values);
-
+      client.release()
       return result.rows[0].balance;
     } catch (e) {
       console.log(e);
@@ -142,6 +148,7 @@ class AccountTable extends PostgresDB {
       `;
       const values = [account.agency_number, account.agency_verification_code, account.account_number, account.account_verification_code];
       const result = await client.query(query, values);
+      client.release()
       if (result.rows.length == 0) {
         return Result.fail(new BadRequest("Account don't exist"));
       }
@@ -163,7 +170,7 @@ class AccountTable extends PostgresDB {
        `;
       const values = [accountId];
       const result = await client.query(query, values);
-
+      client.release()
       return result.rows[0].name;
     } catch (e) {
       console.log(e);
@@ -183,6 +190,7 @@ class AccountTable extends PostgresDB {
       `;
       const values = [accountId];
       const result = await client.query(query, values);
+      client.release()
       return result.rows;
     } catch (e) {
       throw new InternalServerError('Service temporarily unavailable');

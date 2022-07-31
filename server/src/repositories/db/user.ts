@@ -13,6 +13,7 @@ class UserTable extends PostgresDB {
               RETURNING id;
           `;
       await client.query(query, [user.id, user.name, user.birthdate, user.cpf]);
+      client.release()
       return Result.ok();
     } catch (e) {
       console.log(e);
@@ -30,6 +31,7 @@ class UserTable extends PostgresDB {
           `;
 
       const result = await client.query(query, [cpf]);
+      client.release()
       if(result.rows.length !== 0){
         return Result.ok<string>(result.rows[0].id) 
       }

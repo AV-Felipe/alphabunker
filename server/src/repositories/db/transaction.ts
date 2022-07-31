@@ -13,6 +13,7 @@ class TransactionTable extends PostgresDB {
       `;
       const values = [transaction.id, transaction.account, transaction.destiny_account, transaction.value, transaction.type, transaction.tax, transaction.total_value];
       const result = await client.query(query, values);
+      client.release()
       return Result.ok(result.rows[0]);
     } catch (e) {
       console.log(e);

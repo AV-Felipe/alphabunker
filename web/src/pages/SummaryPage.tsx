@@ -4,20 +4,38 @@ import MainContainer from '../components/MainContainer';
 import MainTitle from '../components/MainTitle';
 import SummaryBody from '../components/summaryBody';
 import SummaryRow from '../components/SummaryRow';
-import Button from '../components/Button';
-import Header from '../components/Header';
-import HeaderRow from '../components/HeaderRow';
-import HeaderSummary from '../components/HeaderSummary';
-import HeaderWelcome from '../components/HeaderWelcome';
 import summaryIcon from '../assets/vectors/icon-summary-orange.svg';
-import transferIcon from '../assets/vectors/icon-transfer.svg';
-import depositIcon from '../assets/vectors/icon-deposit.svg';
-import withdrawIcon from '../assets/vectors/icon-withdraw.svg';
-import userIcon from '../assets/vectors/icon-user.svg';
-
+import { useEffect, useState } from 'react';
+import { useUser } from '../providers/userProvider';
+import { parseDate } from '../utils/date';
 export default function SummaryPage () {
-
+  const { user } = useUser();
+  const [transactions, setTransactions] = useState()
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    fetch('http://localhost:8000/extract', {
+      method: 'POST',
+      body: JSON.stringify({account: user?.account}),
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      }),
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res)
+        if(res.message != 'Success'){
+          return;
+        }
+        user.account.balance = res.data.account.balance;
+        user.extract = res.data;
+        console.log(res.data.transactions)
+        setTransactions(res.data.transactions);
+        console.log(transactions)
+      })
+      .catch(err => console.log(err));
+  }, []);
 
   function handleClick (event) {
     console.log(event.target.alt);
@@ -34,10 +52,21 @@ export default function SummaryPage () {
       <MainContainer>
         <MainTitle title='Extrato de transações' iconSrc={summaryIcon} bell={true} />
         <SummaryBody>
-          <SummaryRow date='08/06/1985' transferSend='100' withdraw='50' fee='6' deposit='200' transferReceived='1000'/>
-          <SummaryRow date='09/06/1985' transferSend='10' deposit='250' transferReceived='1500'/>
+          {
+            transactions?.map((transaction)=>{
+              return <SummaryRow
+                key={Math.random()}
+                date={parseDate(transaction.date)}
+                transferSend=''
+                withdraw=''
+                fee={transaction.tax}
+                deposit={transaction.type === 'deposit' ? transaction.value : ''}
+                transferReceived=''
+              />;
+            })
+          }
+          {/* <SummaryRow date='09/06/1985' transferSend='10' deposit='250' transferReceived='1500'/> */}
         </SummaryBody>
-
       </MainContainer>
 
     </>
