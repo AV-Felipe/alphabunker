@@ -11,7 +11,7 @@ export default function PageBody ({
   return (
     <div
       className={
-        'w-screen h-full flex flex-col bg-body-light-200 dark:bg-body-dark items-center justify-start'
+        'w-screen min-h-screen flex flex-col bg-body-light-200 dark:bg-body-dark items-center justify-start'
       }
     >
       {children}

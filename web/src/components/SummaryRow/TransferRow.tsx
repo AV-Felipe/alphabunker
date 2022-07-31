@@ -6,6 +6,7 @@ interface PropTypes {
   transferReceived?: string;
   destiny?: string;
   fee?: string;
+  origin?:string
 }
 
 export default function TransferRow ({
@@ -13,6 +14,7 @@ export default function TransferRow ({
   transferSend,
   transferReceived,
   destiny,
+  origin,
   fee
 }: PropTypes) {
   return (
@@ -29,15 +31,7 @@ export default function TransferRow ({
         {date}
       </h2>
 
-      {
-        transferSend &&
-        <p
-          className='w-full flex justify-between'
-        >
-          <span className='text-input-inactive'>Transferências enviadas</span>
-          <span className='text-input-error'>- ${transferSend}</span>
-        </p>
-      }
+
       {
         destiny &&
         <p
@@ -45,6 +39,24 @@ export default function TransferRow ({
         >
           <span className='text-input-inactive'>Destino</span>
           <span className='text-input-inactive'>{destiny}</span>
+        </p>
+      }
+      {
+        origin &&
+        <p
+          className='w-full flex justify-between'
+        >
+          <span className='text-input-inactive'>Origem</span>
+          <span className='text-input-inactive'>{origin}</span>
+        </p>
+      }
+      {
+        transferSend &&
+        <p
+          className='w-full flex justify-between'
+        >
+          <span className='text-input-inactive'>Transferências enviadas</span>
+          <span className='text-input-error'>- ${transferSend}</span>
         </p>
       }
       {
