@@ -8,6 +8,7 @@ import { useUser } from '../providers/userProvider';
 import { Link } from 'react-router-dom';
 import { LoginValues } from '../utils/types';
 import ValidateLogin from '../validator/ValidateLogin';
+import { Modal } from '../components/Modal/Modal';
 
 export default function HeaderPage () {
   const { user } = useUser();
@@ -15,6 +16,8 @@ export default function HeaderPage () {
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState(false);
   const [formErrors, setFormErrors] = useState<Partial<LoginValues>>({});
+  const [modal,setModal] = useState(false)
+
   const navigate = useNavigate();
 
   function handleChange (event) {
@@ -58,6 +61,13 @@ export default function HeaderPage () {
 
   return (
     <div className='py-4 pt-10 w-screen  bg-body-light-200 dark:bg-body-dark flex flex-col items-center gap-2'>
+      {modal && (
+        <Modal
+          title="Depósito"
+          setModal={setModal}
+          handleConfirmModal={handleClick}
+        />
+      )}
       <img src={logoIcon} className={'w-32'} />
       <p className='text-paragraph-dark dark:text-paragraph-light-100 text-xl font-medium mb-6'>Login</p>
       <FormInput error={formErrors.name} type='text' name='name' placeHolder='Nome' value={values.name} handleChange={handleChange} />
@@ -67,7 +77,7 @@ export default function HeaderPage () {
       <FormInput error={formErrors.account_verification_code} type='text' name='account_verification_code' placeHolder='Código de verificação da conta' value={values.account_verification_code} handleChange={handleChange} />
       <FormInput error={formErrors.password} type='password' name='password' placeHolder='Senha' value={values.password} handleChange={handleChange} />
       {serverError && <p className='text-input-error w-[250px] ml-[10px] text-[10px]'>{serverError}</p>}
-      <FormButton loading={loading} handleClick={handleClick}>Entrar</FormButton>
+      <FormButton loading={loading} handleClick={()=>setModal(true)}>Entrar</FormButton>
       <Link className='text-sm dark:text-paragraph-light-100' to={'/register'}>Crie sua conta</Link>
     </div>
   );
