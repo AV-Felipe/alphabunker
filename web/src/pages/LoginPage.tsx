@@ -28,9 +28,9 @@ export default function HeaderPage () {
   function handleClick (event) {
     const errors = ValidateLogin(values);
     const requestBody = { account: user.account };
+    setFormErrors(errors);
 
     if(Object.keys(errors).length !== 0) return;
-    setFormErrors(errors);
     setServerError(false);
     setLoading(true);
 

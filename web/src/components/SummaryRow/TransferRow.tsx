@@ -4,17 +4,15 @@ interface PropTypes {
   date: string;
   transferSend?: string;
   transferReceived?: string;
-  withdraw?: string;
-  deposit?: string;
+  destiny?: string;
   fee?: string;
 }
 
-export default function SummaryRow ({
+export default function TransferRow ({
   date,
   transferSend,
   transferReceived,
-  withdraw,
-  deposit,
+  destiny,
   fee
 }: PropTypes) {
   return (
@@ -40,17 +38,15 @@ export default function SummaryRow ({
           <span className='text-input-error'>- ${transferSend}</span>
         </p>
       }
-
       {
-        withdraw &&
+        destiny &&
         <p
           className='w-full flex justify-between'
         >
-          <span className='text-input-inactive'>Saques</span>
-          <span className='text-input-error'>- ${withdraw}</span>
+          <span className='text-input-inactive'>Destino</span>
+          <span className='text-input-inactive'>{destiny}</span>
         </p>
       }
-
       {
         fee &&
         <p
@@ -58,16 +54,6 @@ export default function SummaryRow ({
         >
           <span className='text-input-inactive'>Tarifas bancárias</span>
           <span className='text-input-error'>- ${fee}</span>
-        </p>
-      }
-
-      {
-        deposit &&
-        <p
-          className='w-full flex justify-between'
-        >
-          <span className='text-input-inactive'>Depósitos</span>
-          <span className='text-[#53D496]'>${deposit}</span>
         </p>
       }
 

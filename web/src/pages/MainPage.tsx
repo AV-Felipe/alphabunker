@@ -11,7 +11,6 @@ export default function MainPage () {
   return (
     <PageBody>
       <HeaderPage/>
-      {/* TODO criar as páginas para cada sub-rota e adicionar aqui */}
       <Routes>
         <Route path='summary' element={<SummaryPage />} />
         <Route path='transfer' element={<p>página de transferência</p>} />

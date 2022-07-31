@@ -3,7 +3,8 @@ import { useUser } from '../providers/userProvider';
 import HeaderProfile from '../components/HeaderProfile';
 import MainTitle from '../components/MainTitle';
 import documentIcon from '../assets/vectors/document-icon.svg';
-import walletIcon from '../assets/vectors/wallet-icon.svg'
+import walletIcon from '../assets/vectors/wallet-icon.svg';
+import {useEffect} from 'react';
 
 function Row({children}){
   return (
@@ -12,7 +13,7 @@ function Row({children}){
     }>
       {children}
     </div>
-  )
+  );
 }
 
 function Container({children}){
@@ -22,27 +23,27 @@ function Container({children}){
     }>
       {children}
     </div>
-  )
+  );
 }
 
 function MainContainer({children}){
   return (
     <div
-    className={
-      'w-screen h-full flex flex-col bg-transparent items-center justify-center'
-    }
-  >
-    <main
       className={
-        'w-5/6 flex flex-col bg-white dark:bg-body-dark dark:border-btn-secondary-base dark:border items-center justify-center rounded-lg'
+        'w-screen h-full flex flex-col bg-transparent items-center justify-center'
       }
     >
-      {children}
-    </main>
+      <main
+        className={
+          'w-5/6 flex flex-col bg-white dark:bg-body-dark dark:border-btn-secondary-base dark:border items-center justify-center rounded-lg'
+        }
+      >
+        {children}
+      </main>
 
-  </div>
+    </div>
 
-  )
+  );
 }
 
 
@@ -56,9 +57,9 @@ export default function ProfilePage () {
         <MainTitle title='Meus dados' iconSrc={documentIcon} bell={false} />
         <Container>
           <Row>Nome: {user?.name}</Row>
-          <Row>Email: {user?.email}</Row>
-          <Row>Data de Nascimento: {user?.birthdate}</Row>
-          <Row>CPF: {user?.cpf}</Row>
+          {user?.email && <Row>Email: {user?.email}</Row>}
+          {user?.birthdate && <Row>Data de Nascimento: {user?.birthdate}</Row>}
+          {user?.cpf && <Row>CPF: {user?.cpf}</Row>}
         </Container>
       </MainContainer>
 

@@ -23,7 +23,6 @@ export default function Button ({
         'w-15 flex flex-col items-center'
       }
     >
-
       <button
         onClick={onClick}
         type={type}
@@ -36,11 +35,9 @@ export default function Button ({
         <img src={imgSource} alt={name} desiredpage={name}/>
       </button>
 
-
-
       <p
         className={
-          'text-center text-xs'
+          'text-center text-xs text-icon-light '
         }
         desiredpage={name}
       >

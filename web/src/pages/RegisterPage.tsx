@@ -28,10 +28,10 @@ export default function RegisterPage () {
 
   function handleClick (event) {
     const errors = ValidateRegister(values);
-    setLoading(true);
     setFormErrors(errors);
     setServerError(false)
     if(Object.keys(errors).length !== 0) return;
+    setLoading(true);
 
     const requestBody = user
 
@@ -45,6 +45,7 @@ export default function RegisterPage () {
       .then(res => res.json())
       .then(res => {
         setLoading(false);
+
         if(res.message != 'Success'){
           setServerError(res.data)
           return

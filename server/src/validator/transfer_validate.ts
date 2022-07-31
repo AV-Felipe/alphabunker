@@ -28,7 +28,7 @@ export default class ValidateTransfer {
     if(passwordValidate.isFailure){
       return Result.fail<boolean>(passwordValidate.error)
     }
-
+    console.log('1111')    
     const moneyValidate = await this.haveEnoughMoney(originId.getValue(), params.value);
     if(moneyValidate.isFailure){
       return Result.fail<boolean>(moneyValidate.error)
@@ -64,14 +64,14 @@ export default class ValidateTransfer {
       return Result.fail<string>(new BadRequest("Destiny account don't exist"))
     }
     const {destiny_account} = params
-    if(!('cpf' in destiny_account)){
-      return Result.fail<string>(new BadRequest("Destiny account cpf is required"))  
-    }
-    const ownerCpf = await new AccountTable().isOwner(destinyId.getValue())
-    const isOwner = ownerCpf.getValue()[0]?.cpf === destiny_account.cpf
-    if (!isOwner) {
-      return Result.fail<string>(new BadRequest("Destiny account have wrong cpf yours"))
-    }
+    // if(!('cpf' in destiny_account)){
+    //   return Result.fail<string>(new BadRequest("Destiny account cpf is required"))  
+    // }
+    // const ownerCpf = await new AccountTable().isOwner(destinyId.getValue())
+    // const isOwner = ownerCpf.getValue()[0]?.cpf === destiny_account.cpf
+    // if (!isOwner) {
+    //   return Result.fail<string>(new BadRequest("Destiny account have wrong cpf yours"))
+    // }
     return Result.ok()
   }
 
@@ -107,6 +107,9 @@ export default class ValidateTransfer {
   private async haveEnoughMoney(accountId: string, value: number): Promise<Result<string>> {
     const money = await new AccountTable().getBalance(accountId);
     const tax = 1
+    console.log("Money: ",money)
+    console.log("Value: ",value)
+    console.log(money < value + tax)
     if (money < value + tax) {
       return Result.fail<string>(new BadRequest('Insufficient funds'));
     }
