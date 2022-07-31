@@ -44,7 +44,7 @@ export default function DepositPage () {
         setLoading(false);
         if(res.message != 'Success') return;
         user.extract = res.data;
-        user.account.balance += parseFloat(values.value);
+        user.account.balance += parseFloat(values.value) - (parseFloat(values.value) * 0.01);
       })
       .catch(err => console.log(err));
   }
