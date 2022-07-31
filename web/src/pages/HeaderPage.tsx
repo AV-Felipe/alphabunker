@@ -9,7 +9,6 @@ import summaryIcon from '../assets/vectors/icon-summary.svg';
 import transferIcon from '../assets/vectors/icon-transfer.svg';
 import depositIcon from '../assets/vectors/icon-deposit.svg';
 import withdrawIcon from '../assets/vectors/icon-withdraw.svg';
-import userIcon from '../assets/vectors/icon-user.svg';
 import { useUser } from '../providers/userProvider';
 
 export default function HeaderPage () {
@@ -29,33 +28,23 @@ export default function HeaderPage () {
   return (
     <>
       <Header>
-
         <HeaderWelcome userName={user.name} />
-
         <HeaderRow>
-
           <Button type="button" imgSource={summaryIcon} name="summary" onClick={handleClick}>
-          Extrato
+            Extrato
           </Button>
-
           <Button type="button" imgSource={transferIcon} name="transfer" onClick={handleClick}>
-          Transferir
+            Transferir
           </Button>
-
           <Button type="button" imgSource={depositIcon} name="deposit" onClick={handleClick}>
-          Depositar
+            Depositar
           </Button>
-
           <Button type="button" imgSource={withdrawIcon} name="withdraw" onClick={handleClick}>
-          Sacar
+            Sacar
           </Button>
-
         </HeaderRow>
-
         <HeaderSummary agency='123' account='456' balance='1.000,99'/>
-
       </Header>
-
     </>
   );
 }

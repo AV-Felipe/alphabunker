@@ -4,7 +4,8 @@ export interface RegisterValues{
   password: string;
   confirm_password: string;
   birthdate: string;
-  cpf: string
+  cpf: string;
+  server: string;
 }
 
 export interface LoginValues{

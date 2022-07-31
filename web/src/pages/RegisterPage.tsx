@@ -43,7 +43,10 @@ export default function RegisterPage () {
       .then(res => res.json())
       .then(res => {
         setLoading(false);
-        if(res.message != 'Success') return;
+        if(res.message != 'Success'){
+          formErrors.server = res.message
+          return
+        }
         console.log(res)
         user.account = res.data.account;
         navigate('/home');
@@ -62,6 +65,7 @@ export default function RegisterPage () {
       <FormInput type='password' error={formErrors?.password} name='password' placeHolder='Senha' value={values.password} handleChange={handleChange} />
       <FormInput type='password' error={formErrors?.confirm_password} name='confirm_password' placeHolder='Confirme sua senha' value={values.confirm_password} handleChange={handleChange} />
       <FormButton loading={loading} handleClick={handleClick}>Cadastrar</FormButton>
+      {formErrors?.server && <label className='text-input-error mt-[-20px] w-[250px] ml-[10px] text-[10px]'>{formErrors?.server}</label>}
       <Link className='text-sm dark:text-paragraph-light-100' to={'/login'}>Entrar</Link>
     </div>
   );
