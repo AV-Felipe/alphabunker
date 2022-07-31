@@ -49,7 +49,7 @@ export default class ValidateTransfer {
     // const ownerCpf = await new AccountTable().isOwner(originId.getValue())
     // const isOwner = ownerCpf.getValue()[0]?.cpf === origin_account.cpf
     // if (!isOwner) {
-    //   return Result.fail<string>(new BadRequest("Origin account is not yours"))   
+    //  a return Result.fail<string>(new BadRequest("Origin account is not yours"))   
     // }
     return Result.ok<string>(originId.getValue());
   }

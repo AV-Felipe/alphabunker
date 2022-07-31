@@ -16,7 +16,6 @@ export default function WithdrawPage () {
   const { user } = useUser();
   const [values, setValues] = useState({} as LoginValues);
   const [loading, setLoading] = useState(false);
-  const [modal,setModal] = useState(false)
 
   function handleChange (event) {
     const name = event.target.name;
@@ -44,7 +43,6 @@ export default function WithdrawPage () {
       .then(res => {
         console.log(res);
         setLoading(false);
-        setModal(false)
         if(res.message != 'Success'){
           alert(res.message)
           return
@@ -58,13 +56,6 @@ export default function WithdrawPage () {
   return (
     <>
       <MainContainer>
-      {modal && (
-        <Modal
-          title="Depósito"
-          setModal={setModal}
-          handleConfirmModal={handleClick}
-        />
-      )}
         <MainTitle title='Saque' iconSrc={withdrawOrangeIcon} bell={false} />
         <div className='mb-3.5 flex flex-col px-6'>
           <FormTitle title={'Dados para saque'} />
@@ -76,7 +67,7 @@ export default function WithdrawPage () {
         </div>
         <FormLongInput type='text' name='value' placeHolder='Valor' value={values.value} handleChange={handleChange} readOnly={false}/>
         <FormLongInput type='password' name='password' placeHolder='Senha' value={values.password} handleChange={handleChange} readOnly={false}/>
-        <FormButton loading={loading} handleClick={()=> setModal(true)}>Sacar</FormButton>
+        <FormButton loading={loading} handleClick={handleClick}>Sacar</FormButton>
       </MainContainer>
     </>
   );
