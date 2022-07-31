@@ -3,31 +3,20 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import MainContainer from '../components/MainContainer';
 import MainTitle from '../components/MainTitle';
 import { useState } from 'react';
-import Button from '../components/Button';
-import Header from '../components/Header';
-import HeaderRow from '../components/HeaderRow';
-import HeaderSummary from '../components/HeaderSummary';
-import HeaderWelcome from '../components/HeaderWelcome';
-import depositOrangeIcon from '../assets/vectors/icon-deposit-orange.svg';
-import depositIcon from '../assets/vectors/icon-deposit-.svg';
-import withdrawIcon from '../assets/vectors/icon-withdraw.svg';
 import withdrawOrangeIcon from '../assets/vectors/icon-withdraw-orange.svg';
-import userIcon from '../assets/vectors/icon-user.svg';
-import FormInput from '../components/FormLongInput';
+import InputTransaction from '../components/FormInput/InputTransaction';
 import FormButton from '../components/FormButton';
 import FormLongInput from '../components/FormLongInput';
 import { useUser } from '../providers/UserProvider';
 import { LoginValues } from '../utils/types';
 import FormTitle from '../components/FormTitle';
-
+import { Modal } from '../components/Modal/Modal';
 
 export default function WithdrawPage () {
   const { user } = useUser();
   const [values, setValues] = useState({} as LoginValues);
   const [loading, setLoading] = useState(false);
-  const [serverError, setServerError] = useState(false);
-  const [formErrors, setFormErrors] = useState<Partial<LoginValues>>({});
-  const navigate = useNavigate();
+  const [modal,setModal] = useState(false)
 
   function handleChange (event) {
     const name = event.target.name;
@@ -37,51 +26,57 @@ export default function WithdrawPage () {
     setValues(values => ({...values, [name]: value}));
   }
   function handleClick (event) {
-    const [agency_number, agency_verification_code] = user.account.agency_number.split('-');
-    const [account, account_verification_code] = user.account.account_number.split('-');
 
     const requestBody = {
-
+      account: user?.account,
+      value: parseFloat(values.value)
     };
-    if(user.account.password == user.account.password) {
-      setLoading(true);
-      fetch('http://localhost:8000/transfer', {
-        method: 'POST',
-        body: JSON.stringify(requestBody),
-        headers: new Headers({
-          'Content-Type': 'application/json'
-        }),
-      })
-        .then(res => res.json())
-        .then(res => {
-          console.log(res);
-          setLoading(false);
-          if(res.message != 'Success') return;
-          user.extract = res.data;
-          navigate('/withdraw');
-        })
-        .catch(err => console.log(err));
-    } else {
-      console.log('o password não foi validado');
-    }
 
+    setLoading(true);
+    fetch('http://localhost:8000/draft', {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      }),
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        setLoading(false);
+        setModal(false)
+        if(res.message != 'Success'){
+          alert(res.message)
+          return
+        } ;
+        user.extract = res.data;
+        user.account.balance -= parseFloat(values.value)
+      })
+      .catch(err => console.log(err));
   }
 
   return (
     <>
       <MainContainer>
+      {modal && (
+        <Modal
+          title="Depósito"
+          setModal={setModal}
+          handleConfirmModal={handleClick}
+        />
+      )}
         <MainTitle title='Saque' iconSrc={withdrawOrangeIcon} bell={false} />
-        <div className='mb-3.5'>
+        <div className='mb-3.5 flex flex-col px-6'>
           <FormTitle title={'Dados para saque'} />
           <div className='flex'>
-            <FormInput type='text' name='agency' placeHolder={`${user.account.agency}` + '-' +`${user.account.agency_verification_code}`} readOnly={true} value={values.agency_number} formSection={true} />
+            <InputTransaction type='text' name='agency' placeHolder={`${user.account.agency_number}` + '-' +`${user.account.agency_verification_code}`} readOnly={true} value={values.agency_number} formSection='Agência' />
             <div className='w-8'></div>
-            <FormInput type='text' name='account' placeHolder={ `${user.account.account_number}` + '-' +`${user.account.account_verification_code}`} readOnly={true} value={values.account_number} formSection={true} />
+            <InputTransaction type='text' name='account' placeHolder={ `${user.account.account_number}` + '-' +`${user.account.account_verification_code}`} readOnly={true} value={values.account_number} formSection='Conta' />
           </div>
         </div>
         <FormLongInput type='text' name='value' placeHolder='Valor' value={values.value} handleChange={handleChange} readOnly={false}/>
-        <FormLongInput type='text' name='password' placeHolder='Senha' value={values.password} handleChange={handleChange} readOnly={false}/>
-        <FormButton loading={loading} handleClick={handleClick}>Transferir</FormButton>
+        <FormLongInput type='password' name='password' placeHolder='Senha' value={values.password} handleChange={handleChange} readOnly={false}/>
+        <FormButton loading={loading} handleClick={()=> setModal(true)}>Sacar</FormButton>
       </MainContainer>
     </>
   );

@@ -54,9 +54,11 @@ export const Modal = ({ title, handleConfirmModal, setModal }: PropTypes) => {
             category="cancel"
             onClick={() => setModal(false)}
             label='Cancelar'
+            className='bg-red z-100'
           />
           <ModalButton
             type="button"
+            className='bg-red z-100'
             category="primary"
             onClick={() => handleConfirmModal()}
             label='Confirmar'
