@@ -4,7 +4,7 @@ import MainTitle from '../components/MainTitle';
 import SummaryBody from '../components/summaryBody';
 import summaryIcon from '../assets/vectors/icon-summary-orange.svg';
 import { useEffect, useState } from 'react';
-import { useUser } from '../providers/userProvider';
+import { useUser } from '../providers/UserProvider';
 import { parseDate } from '../utils/date';
 import DepositRow from '../components/SummaryRow/DepositRow';
 import TransferRow from '../components/SummaryRow/TransferRow';

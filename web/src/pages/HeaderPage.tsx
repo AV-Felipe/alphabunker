@@ -9,7 +9,7 @@ import summaryIcon from '../assets/vectors/icon-summary.svg';
 import transferIcon from '../assets/vectors/icon-transfer.svg';
 import depositIcon from '../assets/vectors/icon-deposit.svg';
 import withdrawIcon from '../assets/vectors/icon-withdraw.svg';
-import { useUser } from '../providers/userProvider';
+import { useUser } from '../providers/UserProvider';
 
 export default function HeaderPage () {
   const {user} = useUser();

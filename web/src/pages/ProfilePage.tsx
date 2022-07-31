@@ -1,5 +1,5 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { useUser } from '../providers/userProvider';
+import { useUser } from '../providers/UserProvider';
 import HeaderProfile from '../components/HeaderProfile';
 import MainTitle from '../components/MainTitle';
 import documentIcon from '../assets/vectors/document-icon.svg';
