@@ -43,14 +43,14 @@ export default class ValidateTransfer {
       return Result.fail<string>(new BadRequest("Origin account don't exist"))   
     }
     const {origin_account} = params
-    if(!('cpf' in origin_account)){
-      return Result.fail<string>(new BadRequest("Origin account cpf is required")  )   
-    }
-    const ownerCpf = await new AccountTable().isOwner(originId.getValue())
-    const isOwner = ownerCpf.getValue()[0]?.cpf === origin_account.cpf
-    if (!isOwner) {
-      return Result.fail<string>(new BadRequest("Origin account is not yours"))   
-    }
+    // if(!('cpf' in origin_account)){
+    //   return Result.fail<string>(new BadRequest("Origin account cpf is required")  )   
+    // }
+    // const ownerCpf = await new AccountTable().isOwner(originId.getValue())
+    // const isOwner = ownerCpf.getValue()[0]?.cpf === origin_account.cpf
+    // if (!isOwner) {
+    //   return Result.fail<string>(new BadRequest("Origin account is not yours"))   
+    // }
     return Result.ok<string>(originId.getValue());
   }
 

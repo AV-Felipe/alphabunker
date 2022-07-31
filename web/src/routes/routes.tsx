@@ -4,7 +4,6 @@ import MainPage from '../pages/MainPage';
 import LoginPage from '../pages/LoginPage';
 import RegisterPage from '../pages/RegisterPage';
 import ProfilePage from '../pages/ProfilePage';
-import TransferPage from '../pages/TransferPage';
 import ProtectedRoute from './ProtectedRoute';
 
 export const Router = () => (
@@ -32,11 +31,6 @@ export const Router = () => (
         </ProtectedRoute>
       }
       />
-      <Route path="/transfer/*" element={
-        <TransferPage />
-      }
-      />
-
       <Route path="*" element={<h1>Error 404</h1>} />
     </Routes>
   </>

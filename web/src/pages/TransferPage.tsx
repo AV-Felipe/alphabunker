@@ -3,14 +3,12 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import MainContainer from '../components/MainContainer';
 import MainTitle from '../components/MainTitle';
 import { useState } from 'react';
-import transferIcon from '../assets/vectors/icon-transfer.svg';
-import FormInput from '../components/FormLongInput';
+import transferIcon from '../assets/vectors/transfer-icon.svg';
+import InputTransaction from '../components/FormInput/InputTransaction';
 import FormButton from '../components/FormButton';
 import FormLongInput from '../components/FormLongInput';
 import FormTitle from '../components/FormTitle';
 import { useUser } from '../providers/UserProvider';
-import { Link } from 'react-router-dom';
-import HeaderPage from './LoginPage';
 
 export default function SummaryPage () {
   const { user } = useUser();
@@ -21,71 +19,70 @@ export default function SummaryPage () {
   function handleChange (event) {
     const name = event.target.name;
     const value = event.target.value;
-    user.destiny_account[name] = value;
-    if(name === 'name') user.name = value;
     setValues(values => ({...values, [name]: value}));
   }
   function handleClick (event) {
-    const [agency_number, agency_verification_code] = user.destiny_account.agency_number.split('-');
-    const [account, account_verification_code] = user.destiny_account.account_number.split('-');
+    const [agency_number, agency_verification_code] = values.agency_number.split('-');
+    const [account_number, account_verification_code] = values.account_number.split('-');
 
     const requestBody = {
       destiny_account: {
-        agency_number,
-        agency_verification_code,
-        account,
-        account_verification_code
+        agency_number: parseInt(agency_number),
+        agency_verification_code: parseInt(agency_verification_code),
+        account_number: parseInt(account_number),
+        account_verification_code: parseInt(account_verification_code)
       },
       origin_account: user.account,
-      value: user.destiny_account.value,
+      value: parseFloat(values.value),
     };
-    if(user.destiny_account.password == user.account.password) {
-      setLoading(true);
-      fetch('http://localhost:8000/transfer', {
-        method: 'POST',
-        body: JSON.stringify(requestBody),
-        headers: new Headers({
-          'Content-Type': 'application/json'
-        }),
-      })
-        .then(res => res.json())
-        .then(res => {
-          console.log(res);
-          setLoading(false);
-          if(res.message != 'Success') return;
-          user.extract = res.data;
-          navigate('/transfer');
-        })
-        .catch(err => console.log(err));
-    } else {
-      console.log('o password não foi validado');
+    if(values.password != user.account.password){
+      console.log("Invalid password")
+      return null;
     }
+    setLoading(true);
+    fetch('http://localhost:8000/transfer', {
+      method: 'POST',
+      body: JSON.stringify(requestBody),
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      }),
+    })
+      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        setLoading(false);
+        if(res.message != 'Success'){
+          return;
+        }
+        user.extract = res.data;
+        user.account.balance -= parseFloat(values.value)
+      })
+      .catch(err => console.log(err));
 
   }
 
   return (
     <>
-      <HeaderPage />
       <MainContainer>
         <MainTitle title='Transferência' iconSrc={transferIcon} bell={false} />
-        <div className='mb-3.5'>
+        <div className='mb-3.5 flex flex-col px-6'>
           <FormTitle title={'Origem'} />
           <div className='flex'>
-            <FormInput type='text' name='agency' placeHolder={`${user.account.agency}` + '-' +`${user.account.agency_verification_code}`} readOnly={true} value={values.agency_number} formSection={true} />
+            <InputTransaction type='text' name='agency' placeHolder={`${user?.account.agency_number}` + '-' +`${user?.account.agency_verification_code}`} readOnly={true}  formSection='Agência' />
             <div className='w-8'></div>
-            <FormInput type='text' name='account' placeHolder={ `${user.account.account_number}` + '-' +`${user.account.account_verification_code}`} readOnly={true} value={values.account_number} formSection={true}/>
+            <InputTransaction type='text' name='account' placeHolder={ `${user?.account.account_number}` + '-' +`${user?.account.account_verification_code}`} readOnly={true} formSection='Conta'/>
           </div>
         </div>
-        <div className='mb-3.5'>
+        <div className='mb-3.5 flex flex-col px-6'>
           <FormTitle title={'Destino'} />
           <div className='flex'>
-            <FormInput type='text' name='agency' readOnly={true} value={values.agency_number} handleChange={handleChange} formSection={true} />
+            <InputTransaction type='text' name='agency_number' value={values?.agency_number} handleChange={handleChange} formSection='Agência' />
             <div className='w-8'></div>
-            <FormInput type='text' name='account' readOnly={true} value={values.account_number} handleChange={handleChange} formSection={true}/>
+            <InputTransaction type='text' name='account_number' value={values?.account_number} handleChange={handleChange} formSection='Conta'/>
           </div>
         </div>
-        <FormLongInput type='text' name='value' placeHolder='Valor' value={values.value} handleChange={handleChange} readOnly={false} />
-        <FormLongInput type='text' name='password' placeHolder='Senha' value={values.password} handleChange={handleChange} readOnly={false} />
+        <FormLongInput type='text' name='value' placeHolder='Valor' value={values?.value} handleChange={handleChange} readOnly={false} />
+        <FormLongInput type='password' name='password' placeHolder='Senha' value={values?.password} handleChange={handleChange} readOnly={false} />
         <FormButton loading={loading} handleClick={handleClick} >Transferir</FormButton>
       </MainContainer>
     </>

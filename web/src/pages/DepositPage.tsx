@@ -3,28 +3,18 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import MainContainer from '../components/MainContainer';
 import MainTitle from '../components/MainTitle';
 import { useState } from 'react';
-import Button from '../components/Button';
-import Header from '../components/Header';
-import HeaderRow from '../components/HeaderRow';
-import HeaderSummary from '../components/HeaderSummary';
-import HeaderWelcome from '../components/HeaderWelcome';
-import depositOrangeIcon from '../assets/vectors/icon-deposit-orange.svg';
-import depositIcon from '../assets/vectors/icon-deposit-.svg';
-import withdrawIcon from '../assets/vectors/icon-withdraw.svg';
-import userIcon from '../assets/vectors/icon-user.svg';
 import FormTitle from '../components/FormTitle';
-import FormInput from '../components/FormLongInput';
+import InputTransaction from '../components/FormInput/InputTransaction';
 import FormButton from '../components/FormButton';
 import FormLongInput from '../components/FormLongInput';
 import { useUser } from '../providers/UserProvider';
-import { Link } from 'react-router-dom';
+import depositOrangeIcon from '../assets/vectors/deposit-icon.svg';
 
 export default function DepositPage () {
   const { user } = useUser();
   const [values, setValues] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
 
   function handleChange (event) {
     const name = event.target.name;
@@ -34,12 +24,11 @@ export default function DepositPage () {
     setValues(values => ({...values, [name]: value}));
   }
 
-
   function handleClick (event) {
 
     const requestBody = {
       account: user.account,
-      value: user.account.value
+      value: parseFloat(values.value)
     };
     setLoading(true);
     fetch('http://localhost:8000/deposit', {
@@ -55,7 +44,7 @@ export default function DepositPage () {
         setLoading(false);
         if(res.message != 'Success') return;
         user.extract = res.data;
-        navigate('/home');
+        user.account.balance += parseFloat(values.value);
       })
       .catch(err => console.log(err));
   }
@@ -64,16 +53,16 @@ export default function DepositPage () {
     <>
       <MainContainer>
         <MainTitle title='Depósito' iconSrc={depositOrangeIcon} bell={false} />
-        <div className='mb-3.5'>
+        <div className='mb-3.5 flex flex-col px-6'>
           <FormTitle title={'Dados para Depósito'} />
           <div className='flex'>
-            <FormInput type='text' name='agency' placeHolder={`${user.account.agency}` + '-' +`${user.account.agency_verification_code}`} readOnly={true} value={values.agency_number} handleChange={handleChange} formSection={true} />
+            <InputTransaction type='text' name='agency' placeHolder={`${user.account.agency_number}` + '-' +`${user.account.agency_verification_code}`} readOnly={true} value={values.agency_number} handleChange={handleChange} formSection='Agência' />
             <div className='w-8'></div>
-            <FormInput type='text' name='account' placeHolder={ `${user.account.account_number}` + '-' +`${user.account.account_verification_code}`} readOnly={true} value={values.account_number} handleChange={handleChange} formSection={true}/>
+            <InputTransaction type='text' name='account' placeHolder={ `${user.account.account_number}` + '-' +`${user.account.account_verification_code}`} readOnly={true} value={values.account_number} handleChange={handleChange} formSection='Conta'/>
           </div>
         </div>
         <FormLongInput type='text' name='value' placeHolder='Valor' value={values.value} handleChange={handleChange} readOnly={false}/>
-        <FormLongInput type='text' name='password' placeHolder='Senha' value={values.password} handleChange={handleChange} readOnly={false}/>
+        <FormLongInput type='password' name='password' placeHolder='Senha' value={values.password} handleChange={handleChange} readOnly={false}/>
         <FormButton loading={loading} handleClick={handleClick}>Transferir</FormButton>
       </MainContainer>
     </>

@@ -8,29 +8,30 @@ import { useUser } from '../providers/UserProvider';
 import { Link } from 'react-router-dom';
 import { LoginValues } from '../utils/types';
 import ValidateLogin from '../validator/ValidateLogin';
-import { Modal } from '../components/Modal/Modal';
 
-export default function HeaderPage () {
+export default function LoginPage () {
   const { user } = useUser();
   const [values, setValues] = useState({} as LoginValues);
   const [loading, setLoading] = useState(false);
   const [serverError, setServerError] = useState(false);
   const [formErrors, setFormErrors] = useState<Partial<LoginValues>>({});
-  const [modal,setModal] = useState(false)
 
   const navigate = useNavigate();
 
   function handleChange (event) {
     const name = event.target.name;
     const value = event.target.value;
-    user.account[name] = value;
+    console.log(name)
+    console.log(user)
+    console.log(user?.account)
+    user.account[name] = value
     if(name === 'name') user.name = value;
     setValues(values => ({...values, [name]: value}));
   }
 
   function handleClick (event) {
     const errors = ValidateLogin(values);
-    const requestBody = { account: user.account };
+    const requestBody = { account: user?.account };
     setFormErrors(errors);
 
     if(Object.keys(errors).length !== 0) return;
@@ -61,13 +62,6 @@ export default function HeaderPage () {
 
   return (
     <div className='py-4 pt-10 w-screen  bg-body-light-200 dark:bg-body-dark flex flex-col items-center gap-2'>
-      {modal && (
-        <Modal
-          title="Depósito"
-          setModal={setModal}
-          handleConfirmModal={handleClick}
-        />
-      )}
       <img src={logoIcon} className={'w-32'} />
       <p className='text-paragraph-dark dark:text-paragraph-light-100 text-xl font-medium mb-6'>Login</p>
       <FormInput error={formErrors.name} type='text' name='name' placeHolder='Nome' value={values.name} handleChange={handleChange} />
@@ -77,7 +71,7 @@ export default function HeaderPage () {
       <FormInput error={formErrors.account_verification_code} type='text' name='account_verification_code' placeHolder='Código de verificação da conta' value={values.account_verification_code} handleChange={handleChange} />
       <FormInput error={formErrors.password} type='password' name='password' placeHolder='Senha' value={values.password} handleChange={handleChange} />
       {serverError && <p className='text-input-error w-[250px] ml-[10px] text-[10px]'>{serverError}</p>}
-      <FormButton loading={loading} handleClick={()=>setModal(true)}>Entrar</FormButton>
+      <FormButton loading={loading} handleClick={handleClick}>Entrar</FormButton>
       <Link className='text-sm dark:text-paragraph-light-100' to={'/register'}>Crie sua conta</Link>
     </div>
   );
