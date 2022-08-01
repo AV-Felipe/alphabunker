@@ -54,11 +54,11 @@ export const Modal = ({ title, handleConfirmModal, setModal }: PropTypes) => {
             category="cancel"
             onClick={() => setModal(false)}
             label='Cancelar'
-            className='bg-red z-100'
+            className='bg-btn-cancel-base hover:bg-btn-cancel-hover z-100'
           />
           <ModalButton
             type="button"
-            className='bg-red z-100'
+            className='bg-btn-primary-base hover:bg-btn-primary-hover z-100'
             category="primary"
             onClick={() => handleConfirmModal()}
             label='Confirmar'

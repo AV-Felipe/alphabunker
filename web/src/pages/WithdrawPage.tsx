@@ -1,5 +1,4 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { Route, Routes, useNavigate } from 'react-router-dom';
 import MainContainer from '../components/MainContainer';
 import MainTitle from '../components/MainTitle';
 import { useState } from 'react';
@@ -11,11 +10,14 @@ import { useUser } from '../providers/UserProvider';
 import { LoginValues } from '../utils/types';
 import FormTitle from '../components/FormTitle';
 import { Modal } from '../components/Modal/Modal';
+import { useNavigate } from 'react-router-dom';
 
 export default function WithdrawPage () {
   const { user } = useUser();
   const [values, setValues] = useState({} as LoginValues);
   const [loading, setLoading] = useState(false);
+  const [modal, setModal] = useState(false)
+  const navigate = useNavigate()
 
   function handleChange (event) {
     const name = event.target.name;
@@ -43,18 +45,27 @@ export default function WithdrawPage () {
       .then(res => {
         console.log(res);
         setLoading(false);
+        setModal(false)
         if(res.message != 'Success'){
           alert(res.message)
           return
         } ;
         user.extract = res.data;
-        user.account.balance -= parseFloat(values.value)
+        user.account.balance -= parseFloat(values.value) + 4
+        navigate('/home/voucher', {state: {value: values.value, type: 'Saque'}})
       })
       .catch(err => console.log(err));
   }
 
   return (
     <>
+     {modal && (
+        <Modal
+          title="Depósito"
+          setModal={setModal}
+          handleConfirmModal={handleClick}
+        />
+      )}
       <MainContainer>
         <MainTitle title='Saque' iconSrc={withdrawOrangeIcon} bell={false} />
         <div className='mb-3.5 flex flex-col px-6'>
@@ -67,7 +78,7 @@ export default function WithdrawPage () {
         </div>
         <FormLongInput type='text' name='value' placeHolder='Valor' value={values.value} handleChange={handleChange} readOnly={false}/>
         <FormLongInput type='password' name='password' placeHolder='Senha' value={values.password} handleChange={handleChange} readOnly={false}/>
-        <FormButton loading={loading} handleClick={handleClick}>Sacar</FormButton>
+        <FormButton loading={loading} handleClick={()=> setModal(true)}>Sacar</FormButton>
       </MainContainer>
     </>
   );

@@ -28,7 +28,7 @@ export const ModalButton = ({
   category,
 }: PropTypes) => (
   <button
-    className={`h-10 px-3 text-btn-text rounded bg-red-600  ${className}`}
+    className={`h-10 px-3 text-btn-text rounded   ${className}`}
     type={type}
     onClick={onClick}
   >

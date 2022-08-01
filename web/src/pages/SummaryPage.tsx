@@ -79,7 +79,6 @@ export default function SummaryPage () {
               }
             })
           }
-          {/* <SummaryRow date='09/06/1985' transferSend='10' deposit='250' transferReceived='1500'/> */}
         </SummaryBody>
       </MainContainer>
 
