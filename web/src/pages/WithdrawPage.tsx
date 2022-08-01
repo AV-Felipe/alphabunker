@@ -17,6 +17,7 @@ export default function WithdrawPage () {
   const [values, setValues] = useState({} as LoginValues);
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState(false)
+  const [serverError, setServerError] = useState('')
   const navigate = useNavigate()
 
   function handleChange (event) {
@@ -47,7 +48,7 @@ export default function WithdrawPage () {
         setLoading(false);
         setModal(false)
         if(res.message != 'Success'){
-          alert(res.message)
+          setServerError(res.data)
           return
         } ;
         user.extract = res.data;
@@ -61,7 +62,7 @@ export default function WithdrawPage () {
     <>
      {modal && (
         <Modal
-          title="Depósito"
+          title="Saque"
           setModal={setModal}
           handleConfirmModal={handleClick}
         />
@@ -78,6 +79,7 @@ export default function WithdrawPage () {
         </div>
         <FormLongInput type='text' name='value' placeHolder='Valor' value={values.value} handleChange={handleChange} readOnly={false}/>
         <FormLongInput type='password' name='password' placeHolder='Senha' value={values.password} handleChange={handleChange} readOnly={false}/>
+        {serverError && <p className='text-input-error w-[250px] ml-[10px] text-[10px]'>{serverError}</p>}
         <FormButton loading={loading} handleClick={()=> setModal(true)}>Sacar</FormButton>
       </MainContainer>
     </>

@@ -15,6 +15,7 @@ export default function SummaryPage () {
   const { user } = useUser();
   const [values, setValues] = useState({});
   const [loading, setLoading] = useState(false);
+  const [serverError, setServerError] = useState('');
   const [modal, setModal] = useState(false)
   const navigate = useNavigate()
 
@@ -24,8 +25,15 @@ export default function SummaryPage () {
     setValues(values => ({...values, [name]: value}));
   }
   function handleClick (event) {
-    const [agency_number, agency_verification_code] = values.agency_number.split('-');
-    const [account_number, account_verification_code] = values.account_number.split('-');
+    try{
+      const [agency_number, agency_verification_code] = values.agency_number.split('-');
+      const [account_number, account_verification_code] = values.account_number.split('-');
+    }catch(e){
+
+      setModal(false)
+      setServerError('Todos os campos precisam estar preenchidos')
+      return null
+    }
 
     const requestBody = {
       destiny_account: {
@@ -54,6 +62,7 @@ export default function SummaryPage () {
         setLoading(false);
         setModal(false)
         if(res.message != 'Success'){
+          setServerError(res.data)
           return;
         }
         user.extract = res.data;
@@ -67,7 +76,7 @@ export default function SummaryPage () {
     <>
       {modal && (
         <Modal
-          title="Depósito"
+          title="Transferência"
           setModal={setModal}
           handleConfirmModal={handleClick}
         />
@@ -92,6 +101,7 @@ export default function SummaryPage () {
         </div>
         <FormLongInput type='text' name='value' placeHolder='Valor' value={values?.value} handleChange={handleChange} readOnly={false} />
         <FormLongInput type='password' name='password' placeHolder='Senha' value={values?.password} handleChange={handleChange} readOnly={false} />
+        {serverError && <p className='text-input-error w-[250px] ml-[10px] text-[10px]'>{serverError}</p>}
         <FormButton loading={loading} handleClick={()=> setModal(true)} >Transferir</FormButton>
       </MainContainer>
     </>

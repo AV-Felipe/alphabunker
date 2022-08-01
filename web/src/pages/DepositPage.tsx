@@ -16,6 +16,7 @@ export default function DepositPage () {
   const [values, setValues] = useState({});
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState(false)
+  const [serverError, setServerError] = useState('')
   const navigate = useNavigate()
 
   function handleChange (event) {
@@ -45,7 +46,10 @@ export default function DepositPage () {
         console.log(res);
         setLoading(false);
         setModal(false)
-        if(res.message != 'Success') return;
+        if(res.message != 'Success') {
+          setServerError(res.data)
+          return null
+        }
         user.extract = res.data;
         user.account.balance += parseFloat(values.value) - (parseFloat(values.value) * 0.01);
         navigate('/home/voucher', {state: {value: values.value, type: 'Deposito', date: parseDate(Date.now())}})
@@ -74,6 +78,7 @@ export default function DepositPage () {
         </div>
         <FormLongInput type='text' name='value' placeHolder='Valor' value={values.value} handleChange={handleChange} readOnly={false}/>
         <FormLongInput type='password' name='password' placeHolder='Senha' value={values.password} handleChange={handleChange} readOnly={false}/>
+        {serverError && <p className='text-input-error w-[250px] ml-[10px] text-[10px]'>{serverError}</p>}
         <FormButton loading={loading} handleClick={()=> setModal(true)}>Transferir</FormButton>
       </MainContainer>
     </>

@@ -7,12 +7,16 @@ import DraftRequest from '../model/draft_request_model';
 import { BadRequest } from '../error/errors';
 import { Result } from '../utils/result';
 import DraftResponse from '../model/draft_response_model';
+import ValidateDeposit from '../validator/deposit_validate';
 export default class CreateDraft {
   private tax = 4;
 
   public async execute(params: DraftRequest): Promise<Result<DraftResponse>> {
 
-    await new ValidateDraft().execute(params);
+    const validate = await new ValidateDraft().execute(params);
+    if(validate.isFailure){
+      return Result.fail(validate.error)
+    }
     const {account, value} = params
     const accountId = await new AccountTable().find(account);
     if(accountId.isFailure){
