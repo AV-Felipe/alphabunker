@@ -49,14 +49,14 @@ export default function SummaryPage () {
                   key={Math.random()}
                   date={parseDate(transaction.date)}
                   fee={transaction.tax}
-                  value={transaction.value}
+                  value={(transaction.value + transaction.tax)}
                 />;
               }else if(transaction.type == 'draft'){
                 return  <WithdrawRow
                   key={Math.random()}
                   date={parseDate(transaction.date)}
                   fee={transaction.tax}
-                  value={transaction.value}
+                  value={(transaction.value + transaction.tax)}
                 />;
               }else{
                 if(transaction.origin){
@@ -73,7 +73,7 @@ export default function SummaryPage () {
                     date={parseDate(transaction.date)}
                     fee={transaction.tax}
                     destiny={transaction.destiny}
-                    transferSend={transaction.value}
+                    transferSend={(transaction.value - (transaction.tax *2))}
                   />;
                 }
               }
