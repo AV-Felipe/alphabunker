@@ -25,11 +25,11 @@ export default class ValidateDeposit {
     if (accountId.isFailure) {
       return Result.fail(accountId.error)
     }
-    const ownerCpf = await new AccountTable().isOwner(accountId.getValue())
-    const isOwner = ownerCpf.getValue()[0]?.cpf === account.cpf
-    if (!isOwner) {
-      return Result.fail(new BadRequest("Account is not yours"))
-    }
+    // const ownerCpf = await new AccountTable().isOwner(accountId.getValue())
+    // const isOwner = ownerCpf.getValue()[0]?.cpf === account.cpf
+    // if (!isOwner) {
+    //   return Result.fail(new BadRequest("Account is not yours"))
+    // }
     return Result.ok()
   }
   

@@ -1,5 +1,4 @@
 /* eslint-disable react/react-in-jsx-scope */
-import { Route, Routes, useNavigate } from 'react-router-dom';
 import MainContainer from '../components/MainContainer';
 import MainTitle from '../components/MainTitle';
 import { useState } from 'react';
@@ -9,12 +8,16 @@ import FormButton from '../components/FormButton';
 import FormLongInput from '../components/FormLongInput';
 import FormTitle from '../components/FormTitle';
 import { useUser } from '../providers/UserProvider';
+import { Modal } from '../components/Modal/Modal';
+import { useNavigate } from 'react-router-dom';
 
 export default function SummaryPage () {
   const { user } = useUser();
   const [values, setValues] = useState({});
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [serverError, setServerError] = useState('');
+  const [modal, setModal] = useState(false)
+  const navigate = useNavigate()
 
   function handleChange (event) {
     const name = event.target.name;
@@ -22,8 +25,15 @@ export default function SummaryPage () {
     setValues(values => ({...values, [name]: value}));
   }
   function handleClick (event) {
-    const [agency_number, agency_verification_code] = values.agency_number.split('-');
-    const [account_number, account_verification_code] = values.account_number.split('-');
+    try{
+      const [agency_number, agency_verification_code] = values.agency_number.split('-');
+      const [account_number, account_verification_code] = values.account_number.split('-');
+    }catch(e){
+
+      setModal(false)
+      setServerError('Todos os campos precisam estar preenchidos')
+      return null
+    }
 
     const requestBody = {
       destiny_account: {
@@ -36,7 +46,6 @@ export default function SummaryPage () {
       value: parseFloat(values.value),
     };
     if(values.password != user.account.password){
-      console.log("Invalid password")
       return null;
     }
     setLoading(true);
@@ -51,18 +60,27 @@ export default function SummaryPage () {
       .then(res => {
         console.log(res);
         setLoading(false);
+        setModal(false)
         if(res.message != 'Success'){
+          setServerError(res.data)
           return;
         }
         user.extract = res.data;
         user.account.balance -= parseFloat(values.value)
+        navigate('/home/voucher', {state: {value: values.value, type: 'Transferência'}})
       })
       .catch(err => console.log(err));
-
   }
 
   return (
     <>
+      {modal && (
+        <Modal
+          title="Transferência"
+          setModal={setModal}
+          handleConfirmModal={handleClick}
+        />
+      )}
       <MainContainer>
         <MainTitle title='Transferência' iconSrc={transferIcon} bell={false} />
         <div className='mb-3.5 flex flex-col px-6'>
@@ -83,7 +101,8 @@ export default function SummaryPage () {
         </div>
         <FormLongInput type='text' name='value' placeHolder='Valor' value={values?.value} handleChange={handleChange} readOnly={false} />
         <FormLongInput type='password' name='password' placeHolder='Senha' value={values?.password} handleChange={handleChange} readOnly={false} />
-        <FormButton loading={loading} handleClick={handleClick} >Transferir</FormButton>
+        {serverError && <p className='text-input-error w-[250px] ml-[10px] text-[10px]'>{serverError}</p>}
+        <FormButton loading={loading} handleClick={()=> setModal(true)} >Transferir</FormButton>
       </MainContainer>
     </>
   );

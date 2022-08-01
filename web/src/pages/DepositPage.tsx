@@ -9,12 +9,15 @@ import FormButton from '../components/FormButton';
 import FormLongInput from '../components/FormLongInput';
 import { useUser } from '../providers/UserProvider';
 import depositOrangeIcon from '../assets/vectors/deposit-icon.svg';
-
+import { Modal } from '../components/Modal/Modal';
+import { parseDate } from '../utils/date';
 export default function DepositPage () {
   const { user } = useUser();
   const [values, setValues] = useState({});
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [modal, setModal] = useState(false)
+  const [serverError, setServerError] = useState('')
+  const navigate = useNavigate()
 
   function handleChange (event) {
     const name = event.target.name;
@@ -42,15 +45,27 @@ export default function DepositPage () {
       .then(res => {
         console.log(res);
         setLoading(false);
-        if(res.message != 'Success') return;
+        setModal(false)
+        if(res.message != 'Success') {
+          setServerError(res.data)
+          return null
+        }
         user.extract = res.data;
         user.account.balance += parseFloat(values.value) - (parseFloat(values.value) * 0.01);
+        navigate('/home/voucher', {state: {value: values.value, type: 'Deposito', date: parseDate(Date.now())}})
       })
       .catch(err => console.log(err));
   }
 
   return (
     <>
+      {modal && (
+        <Modal
+          title="Depósito"
+          setModal={setModal}
+          handleConfirmModal={handleClick}
+        />
+      )}
       <MainContainer>
         <MainTitle title='Depósito' iconSrc={depositOrangeIcon} bell={false} />
         <div className='mb-3.5 flex flex-col px-6'>
@@ -63,7 +78,8 @@ export default function DepositPage () {
         </div>
         <FormLongInput type='text' name='value' placeHolder='Valor' value={values.value} handleChange={handleChange} readOnly={false}/>
         <FormLongInput type='password' name='password' placeHolder='Senha' value={values.password} handleChange={handleChange} readOnly={false}/>
-        <FormButton loading={loading} handleClick={handleClick}>Transferir</FormButton>
+        {serverError && <p className='text-input-error w-[250px] ml-[10px] text-[10px]'>{serverError}</p>}
+        <FormButton loading={loading} handleClick={()=> setModal(true)}>Transferir</FormButton>
       </MainContainer>
     </>
   );

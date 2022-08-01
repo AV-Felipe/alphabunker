@@ -37,14 +37,14 @@ export default class ValidateDraft {
     if (!accountId) {
       return Result.fail(new BadRequest("Account don't exist"))
     }
-    const ownerCpf = await new AccountTable().isOwner(accountId.getValue())
-    if(ownerCpf.isFailure){
-      return Result.fail(ownerCpf.error)
-    }
-    const isOwner = ownerCpf.getValue()[0]?.cpf === account.cpf
-    if (!isOwner) {
-      return Result.fail(new BadRequest("Account is not yours"))
-    }
+    // const ownerCpf = await new AccountTable().isOwner(accountId.getValue())
+    // if(ownerCpf.isFailure){
+    //   return Result.fail(ownerCpf.error)
+    // }
+    // const isOwner = ownerCpf.getValue()[0]?.cpf === account.cpf
+    // if (!isOwner) {
+    //   return Result.fail(new BadRequest("Account is not yours"))
+    // }
     return Result.ok()
   }
 

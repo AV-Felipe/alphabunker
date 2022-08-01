@@ -11,8 +11,10 @@ import DepositResponse from '../model/deposit_response_model';
 
 export default class CreateDeposit {
   public async execute(params: DepositRequest) : Promise<Result<DepositResponse>>{
-    await new ValidateDeposit().execute(params);
-  
+    const validate = await new ValidateDeposit().execute(params);
+    if(validate.isFailure){
+      return Result.fail(validate.error)
+    }
     const accountId = await new AccountTable().find(params.account);
     if(accountId.isFailure){
       return Result.fail(new BadRequest("Account don't exist"))
