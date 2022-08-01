@@ -13,7 +13,7 @@ export default function PaymentVoucher() {
       <MainTitle title='Comprovante de transação' iconSrc={voucherIcon} bell={false} />
       <div
         className={
-          'w-11/12 mb-2 p-3 bg-body-light-100 flex flex-col gap-0.5 justify-start items-start my-1'
+          'w-11/12 mb-2 p-3 bg-body-light-100 dark:bg-body-dark flex flex-col gap-0.5 justify-start items-start my-1'
         }
       >
         <p

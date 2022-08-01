@@ -25,15 +25,10 @@ export default function SummaryPage () {
     setValues(values => ({...values, [name]: value}));
   }
   function handleClick (event) {
-    try{
-      const [agency_number, agency_verification_code] = values.agency_number.split('-');
-      const [account_number, account_verification_code] = values.account_number.split('-');
-    }catch(e){
-
-      setModal(false)
-      setServerError('Todos os campos precisam estar preenchidos')
-      return null
-    }
+    console.log('1')
+    const [agency_number, agency_verification_code] = values.agency_number.split('-');
+    const [account_number, account_verification_code] = values.account_number.split('-');
+    console.log('2')
 
     const requestBody = {
       destiny_account: {
@@ -46,6 +41,8 @@ export default function SummaryPage () {
       value: parseFloat(values.value),
     };
     if(values.password != user.account.password){
+      setServerError('Senha errada')
+      setModal(false)
       return null;
     }
     setLoading(true);
