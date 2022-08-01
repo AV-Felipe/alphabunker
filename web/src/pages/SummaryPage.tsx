@@ -65,7 +65,7 @@ export default function SummaryPage () {
                     date={parseDate(transaction.date)}
                     fee={transaction.tax}
                     origin={transaction.origin}
-                    transferReceived={transaction.value}
+                    transferReceived={(transaction.value + transaction.tax)}
                   />;
                 }else{
                   return  <TransferRow

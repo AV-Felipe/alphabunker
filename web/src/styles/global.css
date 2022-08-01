@@ -16,7 +16,7 @@ body {
 }
 
 #root {
-  @apply w-screen min-h-screen flex flex-col justify-start items-center bg-white dark:bg-black;
+  @apply w-screen min-h-screen flex flex-col justify-start items-center bg-body-light-200 dark:bg-body-dark;
 }
 
 ul {
